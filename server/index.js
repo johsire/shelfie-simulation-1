@@ -14,7 +14,13 @@ app.use(bodyParser.json());
 app.use(cors());
 
   allInventory: (req, res) => {
-    app.get("/api/inventory", invController.allInventory)
+    app.get("/api/inventory", invController.allInventory);
+
+    app.post("/api/inventory", invController.create);
+
+    app.put("/api/inventory", invController.update);
+
+    
 
 
 
