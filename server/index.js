@@ -4,7 +4,7 @@ const cors = require('cors');
 const massive = require('massive');
 require('dotenv').config();
 
-const inventoryController = require('./controller');
+const invController = require('./controller');
 
 const app = express();
 massive(process.env.CONNECTION_STRING)
@@ -13,11 +13,13 @@ massive(process.env.CONNECTION_STRING)
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get("/api/inventory", inventoryController.all)
+  allInventory: (req, res) => {
+    app.get("/api/inventory", invController.allInventory)
 
 
 
 const PORT = 5555;
 app.listen(PORT, () => {
   console.log('Its going down on port' + ' ' + PORT + '!')
-});
+})
+};
