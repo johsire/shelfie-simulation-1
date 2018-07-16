@@ -5,15 +5,17 @@ class Form extends Component {
   constructor(props) {
     super(props)
       this.state = {
-        imageUrl: '',
+        imageUrl: 'http://dreamstop.com/wp-content/uploads/2013/11/Internet-dream-meaning.jpg',
         productName: '',
-        priceInput: '',
+        priceInput: 0,
       }
+      // NO NEED TO BIND BECAUSE WE USE ARROW FUNCTIONS () =>
       // this.handleChange = this.handleChange.bind(this)
+      // this.handleCancel = this.handleCancel.bind(this)
+      // this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange = e => {
-    console.log(e.target.value, 'change event being fired');
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -30,14 +32,25 @@ class Form extends Component {
   }
 
   handleSubmit = (e) => {
-    console.log(e.target, 'submit event being fired');
     e.preventDefault();
     const data = {
       imageUrl: this.state.imageUrl,
       productName: this.state.productName,
       priceInput: this.state.priceInput,
     }
-    axios.post('api/product', data)
+    axios.post('http://localhost:5555/api/product', data)
+      .then(res => {
+        console.log(res.data, 'response from backend');
+        this.setState({
+          imageUrl: 'http://dreamstop.com/wp-content/uploads/2013/11/Internet-dream-meaning.jpg',
+          productName: '',
+          priceInput: '',
+        })
+      })
+      .catch(err => {
+        console.log(err, 'error from backend aftr axios');
+      })
+    // console.log('/api/products');
   }
 
 
@@ -47,8 +60,8 @@ class Form extends Component {
       Image URL: {this.state.imageUrl}<br />
       Product Name: {this.state.productName}<br />
       Price: {this.state.priceInput} <br />
-      <img src={this.state.imageUrl} />
-      <form>
+      <img src={this.state.imageUrl} alt="Product" />
+      <form onSubmit={e => this.handleSubmit(e)}>
         <br />
         <input
           name="imageUrl" 
@@ -73,11 +86,13 @@ class Form extends Component {
         name="priceInput"
         placeholder='Price' 
         value={this.state.priceInput} 
-        onChange={e => this.handleChange(e)}/>
+        onChange={e => this.handleChange(e)}
+        type="number"
+        />
 
         <br />
         <br />
-        <button onSubmit={e => this.handleSubmit(e)}>Add to inventory</button> 
+        <button type="submit">Add to inventory</button> 
         <br />
         <br /> 
         <button onClick={e => this.handleCancel(e)}>Cancel</button>

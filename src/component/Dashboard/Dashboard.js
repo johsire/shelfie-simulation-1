@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
 import Product from '../Product/Product';
+import axios from 'axios';
 
 class Dashboard extends Component {
-  render() {
-    return (
-      <div>
-        <p>This is from the Dashboard Component</p>
-        <Product />
-      </div>
+  constructor() {
+    super();
+    this.state = {
+      products: []
+    }
+  }
 
-    )
+  componentDidMount() {
+    axios.get('http://localhost:5555/api/inventory')
+      .then((res) => {
+      this.setState({ products: res.data.inventory })
+    })
+  }
+  render() {
+    const { products } = this.state;
+    if (products.length > 0) {
+      return (<Product products={products} title="Haha" viatu="Timbarandy" />)
+    }
+    return (<h1>Loading...</h1>)
   }
 };
 

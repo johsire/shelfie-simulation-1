@@ -1,26 +1,32 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const massive = require('massive');
 require('dotenv').config();
 
-const dbInstance = req.app.get('db');
-
 module.exports = {
-  getAllInventory: (req, res, next) => {
-    dbInstance.read_products()
-      .then(() => res.send(200).send(products))
-      .catch(err => {
-        res.status(500).send({errorMessage: "Oh no! Something went wrong!"})
-      })
-  },
   create: (req, res, next) => {
-    const url = req.body.data.imageUrl;
-    const name = req.body.data.productName;
-    const price = req.body.data.priceInput;
+    const dbInstance = req.app.get('db');
+    const { imageUrl, productName, priceInput } = req.body;
 
-    db.create_product()
-      .then(() => res.send(200).send(products))
+    dbInstance.create_product([imageUrl, productName, priceInput])
+      // .then(() => res.sendStatus(200).send(products))
+      .then(data => {
+        res.status(200).json({
+          product: data[0],
+        })
+      })
+      .catch(err => {
+        res.status(500).send({errorMessage: "Oh no! Something went wrong!"});
+      });
+  },
+
+  getAllInventory: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance.read_products()
+      .then(data => {
+        console.log(data);
+        res.status(200).json({
+          inventory: data,
+        })
+      })
       .catch(err => {
         res.status(500).send({errorMessage: "Oh no! Something went wrong!"})
       })
