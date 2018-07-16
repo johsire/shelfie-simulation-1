@@ -3,6 +3,7 @@ import './App.css';
 import Header from './component/Header/Header';
 import Dashboard from './component/Dashboard/Dashboard';
 import Form from './component/Form/Form';
+import axios from 'axios';
 
 class App extends Component {
   constructor() {
@@ -19,14 +20,11 @@ class App extends Component {
     })
   }
 
-
-
-
   render() {
     return (
       <div className="App">
-        <Header />
-        <Dashboard />
+        {/* <Header />
+        <Dashboard /> */}
         <Form />
       </div>
     );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Form extends Component {
   constructor(props) {
@@ -8,46 +9,62 @@ class Form extends Component {
         productName: '',
         priceInput: '',
       }
-      this.handleChange = this.handleChange.bind(this)
+      // this.handleChange = this.handleChange.bind(this)
   }
 
-  change = e => {
+  handleChange = e => {
+    console.log(e.target.value, 'change event being fired');
     this.setState({
       [e.target.name]: e.target.value
     });
   };
 
-  onSubmit = (e) => {
+  handleCancel = (e) => {
+    console.log(e.target, 'cancel event being fired');
     e.preventDefault();
-    this.onSubmit()
-    console.log(this.state);
+    this.setState({
+      imageUrl: '',
+      productName: '',
+      priceInput: '',
+    })
   }
 
-  onClick = (e) => {
+  handleSubmit = (e) => {
+    console.log(e.target, 'submit event being fired');
     e.preventDefault();
-    this.props.onClick();
-    console.log(this.state);
+    const data = {
+      imageUrl: this.state.imageUrl,
+      productName: this.state.productName,
+      priceInput: this.state.priceInput,
+    }
+    axios.post('api/product', data)
   }
 
 
   render() {
     return(
+      <div>
+      Image URL: {this.state.imageUrl}<br />
+      Product Name: {this.state.productName}<br />
+      Price: {this.state.priceInput} <br />
+      <img src={this.state.imageUrl} />
       <form>
         <br />
         <input
-        name="imageUrl" 
-        placeholder='Image Url' 
-        value={this.state.imageUrl} 
-        onChange={e => this.change(e)} />
+          name="imageUrl" 
+          placeholder='Image Url' 
+          value={this.state.imageUrl} 
+          onChange={e => this.handleChange(e)} 
+        />
 
         <br />
         <br />
 
         <input 
-        name="productName" 
-        placeholder='Product Name' 
-        value={this.state.productName} 
-        onChange={e => this.change(e)}/>
+          name="productName" 
+          placeholder='Product Name' 
+          value={this.state.productName} 
+          onChange={e => this.handleChange(e)}/>
 
         <br />
         <br />
@@ -56,18 +73,17 @@ class Form extends Component {
         name="priceInput"
         placeholder='Price' 
         value={this.state.priceInput} 
-        onChange={e => this.change(e)}/>
+        onChange={e => this.handleChange(e)}/>
 
         <br />
         <br />
-
-        <button onClick={e => this.onSubmit(e)}>Cancel</button>
-
+        <button onSubmit={e => this.handleSubmit(e)}>Add to inventory</button> 
         <br />
         <br /> 
+        <button onClick={e => this.handleCancel(e)}>Cancel</button>
 
-         <button onSubmit={e => this.onClick(e)}>Add to inventory</button> 
       </form>
+      </div>
     )}
   }
 
