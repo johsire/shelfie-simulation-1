@@ -5,12 +5,14 @@ const cors = require('cors');
 const massive = require('massive');
 require('dotenv').config();
 
+
 const inventoryController = require('./controllers/inventoryController');
 
 const app = express();
 
 massive(process.env.CONNECTION_STRING)
   .then(dbInstance => {
+    console.log(dbInstance)
    app.set('db', dbInstance)})
   .catch(err => console.log(err));
 
@@ -27,5 +29,5 @@ app.use(cors());
 
 const PORT = 5555;
 app.listen(PORT, () => {
-  console.log('Its going down on port' + ' ' + PORT + '!')
+  console.log('Its going down on port:' + ' ' + PORT + '!')
 })

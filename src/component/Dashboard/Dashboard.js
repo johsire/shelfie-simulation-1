@@ -11,15 +11,16 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5555/api/inventory')
+    axios.get('/api/inventory')
       .then((res) => {
       this.setState({ products: res.data.inventory })
     })
   }
+
   render() {
     const { products } = this.state;
     if (products.length > 0) {
-      return (<Product products={products} title="Haha" viatu="Timbarandy" />)
+      return (<Product products={products} title="Our Products" viatu="Timbarandy" />)
     }
     return (<h1>Loading...</h1>)
   }

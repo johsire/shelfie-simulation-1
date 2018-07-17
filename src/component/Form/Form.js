@@ -38,7 +38,7 @@ class Form extends Component {
       productName: this.state.productName,
       priceInput: this.state.priceInput,
     }
-    axios.post('http://localhost:5555/api/product', data)
+    axios.post('/api/product', data)
       .then(res => {
         console.log(res.data, 'response from backend');
         this.setState({
