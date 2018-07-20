@@ -12,7 +12,7 @@ const app = express();
 
 massive(process.env.CONNECTION_STRING)
   .then(dbInstance => {
-    console.log(dbInstance)
+    // console.log(dbInstance)
    app.set('db', dbInstance)})
   .catch(err => console.log(err));
 

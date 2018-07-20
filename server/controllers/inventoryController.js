@@ -20,10 +20,9 @@ module.exports = {
 
   getAllInventory: (req, res, next) => {
     const dbInstance = req.app.get('db');
-    // console.log('before get_products', req);
     dbInstance.get_products()
       .then(data => {
-        console.log('after get_products', data);
+        // console.log(data);
         res.status(200).json({
           inventory: data,
         })

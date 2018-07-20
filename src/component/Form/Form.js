@@ -40,7 +40,7 @@ class Form extends Component {
     }
     axios.post('/api/product', data)
       .then(res => {
-        console.log(res.data, 'response from backend');
+        // console.log(res.data, 'response from backend');
         this.setState({
           imageUrl: 'http://dreamstop.com/wp-content/uploads/2013/11/Internet-dream-meaning.jpg',
           productName: '',
@@ -73,11 +73,7 @@ class Form extends Component {
         <br />
         <br />
 
-        <input 
-          name="productName" 
-          placeholder='Product Name' 
-          value={this.state.productName} 
-          onChange={e => this.handleChange(e)}/>
+        <input name="productName" placeholder='Product Name' value={this.state.productName} onChange={e => this.handleChange(e)}/>
 
         <br />
         <br />
